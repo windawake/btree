@@ -3,8 +3,8 @@
 $internal_node = [];
 $leaf_node  = [];
 
-// $internal_node = [33, 100];
-// $leaf_node = [[10,20,33],[50,70,100],[150,200]];
+// $internal_node = [20, 50];
+// $leaf_node = [[10,20],[33,50],[70,100]];
 
 // 计算内部节点所在索引值
 function getInternalPos($num){
@@ -17,26 +17,26 @@ function getInternalPos($num){
 
     if($internal_node){
         $left = 0;
-        $right = count($internal_node) - 1;
+        $right = count($internal_node);
+        $internalArr = array_merge([0], $internal_node);
         
-        while($internal_node[$left] != $internal_node[$right]){
+        while($internalArr[$left] != $internalArr[$right]){
             $mid = intval(($left + $right)/2);
-            if($num < $internal_node[$left]){
+            if($num < $internalArr[$left]){
                 return $left;
             }
-            if($num > $internal_node[$right]){
-                return $right + 1;
+            if($num > $internalArr[$right]){
+                return $right;
             }
-            if($num < $internal_node[$mid]){
+            if($num < $internalArr[$mid]){
                 $right = $mid -1;
+                $postion = $mid - 1;
+            }
+            if($num > $internalArr[$mid]){
+                $left = $mid + 1;
                 $postion = $mid;
             }
-            if($num > $internal_node[$mid]){
-                $left = $mid + 1;
-                $postion = $mid + 1;
-            }
         }
-
     }
 
     return $postion;
@@ -67,9 +67,12 @@ function insert_node($num)
 
         $internal_node = $internalPretend;
         $internal_node[$pos] = $leafSplit[0][1];
-        $internal_node[$pos+1] = $leafSplit[1][1];
-        $internal_node = array_merge($internal_node, $internalAppend);
 
+        if($internalAppend){
+            $internal_node[$pos+1] = $leafSplit[1][1];
+            $internal_node = array_merge($internal_node, $internalAppend);
+        }
+       
         // 重新计算叶子节点
         $leafAppend = array_slice($leaf_node, $pos + 1);
         array_splice($leafPretend, $pos);
