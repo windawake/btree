@@ -102,6 +102,7 @@ while(1){
 
     if(intval($input) <= 0){
         echo "必须输入大于0的整型数字".PHP_EOL;
+        continue;
     }
 
     insert_node($input);
