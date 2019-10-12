@@ -80,8 +80,6 @@ func insertNode(num int) {
 
 		// 重新计算内部节点
 		internalPretend := internal_node[:pos]
-		
-
 		internalNew := []int{}
 		internalNew = append(internalNew,internalPretend...)
 		internalNew = append(internalNew,leaf_left[1])
@@ -90,25 +88,18 @@ func insertNode(num int) {
 			internalNew = append(internalNew,leaf_right[1])
 			internalNew = append(internalNew,internalAppend...)
 		}
-
 		internal_node = internalNew
-
 
 		// 重新计算叶子节点
 		leafPretend := leaf_node[:pos]
-		
-
 		leafNew := [][]int{}
 		leafNew = append(leafNew,leafPretend...)
 		leafNew = append(leafNew,leaf_left)
 		leafNew = append(leafNew,leaf_right)
-
 		if len(leaf_node)>pos {
 			leafAppend := leaf_node[pos+1:]
 			leafNew = append(leafNew,leafAppend...)
 		}
-		
-		
 		leaf_node = leafNew
 	}else{
 
